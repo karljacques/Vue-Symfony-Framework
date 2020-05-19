@@ -19,7 +19,7 @@
         protected message: string = 'Welcome to Your Vue.js App';
 
         public async created() {
-            const response = await axios.get('http://api.omicron.net/ping');
+            const response = await axios.get('http://YOUR_URL_HERE/ping');
 
             this.message = response.data.data;
         }
