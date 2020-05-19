@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+    framework-db:
+        container_name: framework-db
+        image: mariadb
+        command: ["--default-authentication-plugin=mysql_native_password"]
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: symfony
+            MYSQL_USER: symfony
+            MYSQL_PASSWORD: symfony
+        networks:
+            - db
+    framework-nginx:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./php-fpm/nginx.conf:/etc/nginx/conf.d/site.conf
+            - ./server:/var/www
+
+        networks:
+            - php
+    framework-php:
+        build: ./php-fpm
+        volumes:
+            - ./server:/var/www
+        networks:
+            - db
+            - php
+networks:
+    db:
+    php:
